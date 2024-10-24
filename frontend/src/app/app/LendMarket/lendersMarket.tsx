@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,13 +10,13 @@ import { LenderData } from "../../../data/LenderData";
 const ITEMS_PER_PAGE = 7;
 
 // Types
-type ModalType = 'create' | 'counter';
+type ModalType = "create" | "counter";
 
 // Component for the header section
 const Header = () => (
   <div className="flex p-4">
-    <div className="flex gap-3">
-      <Link href='/app'>
+    <div className="flex gap-3 justify-center items-center">
+      <Link href="/app">
         <Image
           src="/images/back-button.svg"
           height={40}
@@ -26,9 +26,17 @@ const Header = () => (
         />
       </Link>
       <div className="flex gap-2 pb-2">
-        <p className="text-black text-4xl">Lend Market</p>
+        <p className="text-black text-xl md:text-2xl lg:text-4xl">
+          Lend Market
+        </p>
         <div className="flex gap-2 border rounded-3xl text-black border-gray-500 w-24 items-center justify-center">
-          <Image src="/images/starknet.png" height={20} width={20} alt="starknet-logo" className="" />
+          <Image
+            src="/images/starknet.png"
+            height={20}
+            width={20}
+            alt="starknet-logo"
+            className=""
+          />
           <p className="text-xs">Starknet</p>
         </div>
       </div>
@@ -38,7 +46,7 @@ const Header = () => (
 
 // Component for the table header
 const TableHeader = () => (
-  <div className="grid grid-cols-6 pt-6 rounded-t-xl bg-smoke-white py-4">
+  <div className="grid grid-cols-6 pt-6 rounded-t-xl bg-smoke-white py-4 min-w-[800px]">
     <div className="text-center font-semibold">Merchant</div>
     <div className="text-center font-semibold">Quantity</div>
     <div className="text-center font-semibold">Net Value</div>
@@ -55,12 +63,17 @@ interface TableRowProps {
 }
 
 const TableRow = ({ row, onCounter }: TableRowProps) => (
-  <div className="grid grid-cols-6 border-t border-gray-300">
+  <div className="grid grid-cols-6 border-t border-gray-300 min-w-[800px]">
     <div className="flex items-center justify-center px-4 py-6">
-      <Image src="/images/phantom-icon.svg" height={20} width={20} alt="phantomicon" />
+      <Image
+        src="/images/phantom-icon.svg"
+        height={20}
+        width={20}
+        alt="phantomicon"
+      />
       <p className="font-medium ml-2">{row.merchants}</p>
     </div>
-    <div className="text-left mx-[4.5rem] px-4 py-6">
+    <div className="text-left mx-auto px-4 py-6">
       <p className="font-medium">{row.quantity}</p>
     </div>
     <div className="text-center px-4 py-6">
@@ -96,7 +109,12 @@ interface ProposalFormProps {
   onManualInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ProposalForm = ({ interestRate, interestRateInput, onInterestRateChange, onManualInputChange }: ProposalFormProps) => (
+const ProposalForm = ({
+  interestRate,
+  interestRateInput,
+  onInterestRateChange,
+  onManualInputChange,
+}: ProposalFormProps) => (
   <div className="space-y-4 px-10 py-6">
     <div>
       <label className="text-sm text-gray-500 pl-2">Quantity</label>
@@ -160,19 +178,32 @@ interface ProposalModalProps {
   onManualInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ProposalModal = ({ isOpen, type, onClose, interestRate, interestRateInput, onInterestRateChange, onManualInputChange }: ProposalModalProps) => {
+const ProposalModal = ({
+  isOpen,
+  type,
+  onClose,
+  interestRate,
+  interestRateInput,
+  onInterestRateChange,
+  onManualInputChange,
+}: ProposalModalProps) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
-      <div className="bg-white rounded-xl w-1/3 h-[470px] relative pt-8">
-        <button className="absolute top-4 right-4 text-black text-xl" onClick={onClose}>
+      <div className="bg-white rounded-xl w-full max-w-lg h-auto p-4 sm:p-8 relative">
+        <button
+          className="absolute top-4 right-4 text-black text-2xl sm:text-xl"
+          onClick={onClose}
+        >
           &times;
         </button>
-        <h2 className="text-center text-lg text-black">
-          {type === 'create' ? 'Create a Proposal' : 'Counter Proposal'}
+
+        <h2 className="text-center text-lg sm:text-xl text-black mb-4">
+          {type === "create" ? "Create a Proposal" : "Counter Proposal"}
         </h2>
 
+        {/* Form Section */}
         <ProposalForm
           interestRate={interestRate}
           interestRateInput={interestRateInput}
@@ -180,17 +211,20 @@ const ProposalModal = ({ isOpen, type, onClose, interestRate, interestRateInput,
           onManualInputChange={onManualInputChange}
         />
 
-        <div className="flex justify-center pb-4">
+        <div className="flex justify-center mt-6 mb-5">
           <button
-            className="bg-[rgba(0,0,0,0.8)] text-white px-4 py-2 rounded-md"
+            className="bg-[rgba(0,0,0,0.8)] text-white px-6 py-2 rounded-md text-sm sm:text-base"
             onClick={onClose}
           >
             Submit
           </button>
         </div>
 
-        <div className="flex items-center gap-2 justify-center absolute bottom-3 left-1/2 transform -translate-x-1/2">
-          <small className="text-gray-500">Powered By Peer Protocol</small>
+        {/* Footer Section */}
+        <div className="flex items-center gap-2  justify-center absolute bottom-4 left-1/2 transform -translate-x-1/2">
+          <small className="text-gray-500 text-xs sm:text-sm">
+            Powered By Peer Protocol
+          </small>
           <Image
             src="/images/LogoBlack.svg"
             height={20}
@@ -205,7 +239,15 @@ const ProposalModal = ({ isOpen, type, onClose, interestRate, interestRateInput,
 };
 
 // Pagination Component
-const Pagination = ({ currentPage, totalPages, onPageChange }: {currentPage: any, totalPages: any, onPageChange: any}) => (
+const Pagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: {
+  currentPage: any;
+  totalPages: any;
+  onPageChange: any;
+}) => (
   <div className="flex justify-end p-4">
     <div className="flex gap-2">
       {Array.from({ length: totalPages }, (_, index) => (
@@ -230,9 +272,9 @@ const Lender = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [modalType, setModalType] = useState<ModalType>('create');
+  const [modalType, setModalType] = useState<ModalType>("create");
   const [interestRate, setInterestRate] = useState(0);
-  const [interestRateInput, setInterestRateInput] = useState('');
+  const [interestRateInput, setInterestRateInput] = useState("");
 
   const totalPages = Math.ceil(LenderData.length / ITEMS_PER_PAGE);
   const currentData = LenderData.slice(
@@ -244,16 +286,20 @@ const Lender = () => {
     setModalType(type);
     setModalOpen(true);
     setInterestRate(0);
-    setInterestRateInput('');
+    setInterestRateInput("");
   };
 
-  const handleInterestRateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInterestRateChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = Number(event.target.value);
     setInterestRate(value);
     setInterestRateInput(event.target.value);
   };
 
-  const handleManualInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleManualInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = event.target.value;
     setInterestRateInput(value);
     setInterestRate(Number(value));
@@ -274,21 +320,23 @@ const Lender = () => {
                 <TableRow
                   key={index}
                   row={row}
-                  onCounter={() => handleOpenModal('counter')}
+                  onCounter={() => handleOpenModal("counter")}
                 />
               ))}
             </div>
           </div>
 
           <button
-            onClick={() => handleOpenModal('create')}
+            onClick={() => handleOpenModal("create")}
             className="relative flex items-center gap-2 px-6 py-3 rounded-3xl bg-[#F5F5F5] text-black border border-[rgba(0,0,0,0.8)] mx-auto font-light hover:bg-[rgba(0,0,0,0.8)] hover:text-white"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             <p>Create a Proposal</p>
             <Image
-              src={isHovered ? "/images/MathPlusHover.png" : "/images/PlusMath.svg"}
+              src={
+                isHovered ? "/images/MathPlusHover.png" : "/images/PlusMath.svg"
+              }
               height={40}
               width={20}
               alt="plus"
